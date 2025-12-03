@@ -1,0 +1,210 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #222;
+    background: transparent;
+    position: relative;
+    min-height: 100vh;
+    padding: 1em;
+    padding-bottom: 100px; /* Hely a még nagyobb lejátszó számára */
+}
+
+/* Fix háttérkép, ami mindig a teljes képernyőt lefedi */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: url('376649_mobil.png') center center no-repeat;
+    background-size: cover;
+    
+    /* MÓDOSÍTÁS: Eltávolítja a parallax hatást. */
+    background-attachment: scroll; 
+    /* Megjegyzés: Bár a position: fixed; maradt, a 'scroll'
+    utasítja a böngészőt, hogy a képet a dokumentumhoz rögzítse. */
+}
+
+h1{
+    font-style: italic;
+    border-style: ridge;
+    border-width: 10px;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+    margin: 0.5em 0;
+}
+h2{
+    font-style: italic;
+    color: white;
+    text-align: left;
+    margin: 0.5em 0;
+}
+h3{
+    color: white;
+    /* Fontos módosítás: vw egység a méret dinamikus kezelésére */
+    font-size: 4.5vw; /* ÚJ: A betűméret a viewport szélességének 4.5%-a lesz */
+    line-height: 1.6;
+}
+
+/* ... A táblázat stílusok itt maradnak ... */
+
+table {
+    font-size: 20px;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 2em;
+    width: 100%;
+    max-width: calc(100% - 2em);
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(20, 20, 20, 0.6);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(2px);
+    box-sizing: border-box;
+}
+th, td {
+    padding: 16px 12px;
+}
+th {
+    background: rgba(40, 40, 40, 0.7);
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+tr:nth-child(even) td {
+    background: rgba(255,255,255,0.04);
+}
+tr:hover td {
+    background: rgba(255,255,255,0.10);
+    transition: background 0.2s;
+}
+td {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: #f2f2f2;
+}
+tr:last-child td {
+    border-bottom: none;
+}
+.note {
+    font-size: 0.95em;
+    color: whitesmoke;
+    margin-bottom: 1em;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- AUDIOLEJÁTSZÓ STÍLUSOK (A KORÁBBI NÖVELT ÉRTÉKEK MARADNAK) --- */
+
+#audio-player-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    background: rgba(20, 20, 20, 0.8); 
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px); 
+    color: white;
+    padding: 22px 35px; /* Még több hely a lejátszó körül */
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.controls-and-progress {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Nagyobb térköz a gombok és sáv között */
+}
+
+.controls-buttons {
+    display: flex;
+    gap: 20px; /* Nagyobb térköz a gombok között */
+}
+
+#audio-player-container button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2.5em; /* Még nagyobb gomb ikon méret */
+    cursor: pointer;
+    padding: 12px; /* Még nagyobb kattintható terület */
+    transition: color 0.2s;
+}
+
+#audio-player-container button:hover {
+    color: #ccc;
+}
+
+.progress-area {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    gap: 12px;
+}
+
+#current-time, #duration {
+    font-size: 1.2em; /* Idő kijelző mérete növelve */
+    min-width: 55px;
+    text-align: center;
+    color: #f2f2f2;
+}
+
+#progress-bar {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 14px; /* Sáv vastagsága növelve */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 7px; 
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+/* Progress bar (Chrome/Safari) */
+#progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px; /* Csúszka mérete növelve */
+    height: 26px; /* Csúszka mérete növelve */
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Progress bar (Firefox) */
+#progress-bar::-moz-range-thumb {
+    width: 26px; /* Csúszka mérete növelve */
+    height: 26px; /* Csúszka mérete növelve */
+    background: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* A már lejátszott rész színe (kis trükkel) - Ezt a JS állítja */
+#progress-bar {
+    /* Ezt a JavaScript-ben állítjuk be inline stílusként! */
+}
